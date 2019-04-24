@@ -129,10 +129,10 @@ def addRestaurant():
         'message' : 'SUCCESS'
     }
 
-@app.route('/test',methods=['POST'])
+@app.route('/test',methods=['GET'])
 def test():
     result = []
-    query = str(request.data['query'])
+    query = str(request.args.get('query'))
     try:
         con =engine.connect()
         rs = con.execute(query)

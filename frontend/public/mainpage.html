@@ -3,12 +3,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Periscope</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/styles.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
@@ -19,12 +18,14 @@
       <a id="logo-container" href="mainPage.html#navCol" class="brand-logo white-text">PeriScope</a>
       <ul class="right hide-on-med-and-down">
         <!-- <li><a class="white-text" href="www.google.com">PROFILE</a></li> -->
+        <li><a class="white-text" href='#' id = 'zuser'></a></li>
+        <li><a class="white-text" href="mainPage.html#foot">Call ME</a></li>
         <li><a class="white-text" href="#" id="out">LOG OUT</a></li>
       </ul>
       <ul id="nav-mobile" class="side-nav">
         <!-- <li><a href="#">PROFILE</a></li> -->
         <li><a href='#' id = 'zuser1'></a></li>
-        
+        <li><a href="#foot">Call Me</a></li>
         <li><a id ="out1">LOG OUT</a></li>
       </ul>
       <a  data-activates="nav-mobile" class="button-collapse" style="color:white"><i class="material-icons">menu</i></a>
@@ -33,8 +34,8 @@
 
 <div class="tap-target froly white-text small" data-activates="add-btn-fixed">
   <div class="tap-target-content ">
-    <h5>Add friends or Tasks</h5>
-    <p>Press the task icon to add your tasks and the friend icon to add friends</p>
+    <h5>Add and Configure Dashboards</h5>
+    <p>Press the Button to see the magic</p>
   </div>
 </div>
 
@@ -44,18 +45,20 @@
   </a>
   <ul>
     <li><a class="btn-floating red modal-trigger" href = "#modal1"><i class="material-icons">border_color</i></a></li>
-    <li><a class="btn-floating yellow darken-1 modal-trigger" href = "#modal2"><i class="material-icons">group_add</i></a></li>
   </ul>
 </div>
-
-    </div>
-    <h1 style = "text-align : center; color:black">Task List</h1>
+  
+   <h1 style = "text-align : center; color:black">Dashboards</h1>
     <div class = "row">
       <div class = "col offset-s2 s8 z-depth-2" id="task_list_cont">
-        <h5 style = "text-align : center">Your tasks</h5>
+        <h5 style = "text-align : center">Your Dashboards</h5>
         <hr>
-          <table class="bordered centered"><thead><tr><th>TASK NAME</th><th>MARK AS DONE</th></tr></thead>
-            <tbody id = "task_list">
+          <table class="bordered centered">
+            <thead><tr><th>NAME</th>
+            <th>Description</th>
+            <th>Query Count</th></tr>
+            </thead>
+            <tbody id = "dashboard_list">
             </tdoby>
           </table>
         </div>
@@ -70,30 +73,24 @@
     <div class="modal-content">
       <form class="col s12">
         <div class="form-container">
-          <h4 class="teal-text center">Enter Task Details</h4>
+          <h4 class="teal-text center">Enter Dashboard Details</h4>
 
           <div class="">
             <div class="input-field col s12">
-              <input id="task_name" type="text" required="">
-              <label for="task_name">Task Name</label>
+              <input id="board_name" type="text" required="">
+              <label for="board_name">Name</label>
             </div>
           </div>
           <div class="">
             <div class="input-field col s12">
-              <input id="location" type="text" class="validate" required>
-              <label for="location">Location</label>
+              <input id="board_desc" type="text" class="validate" required>
+              <label for="board_desc">Description</label>
             </div>
           </div>
           <div class="">
             <div class="input-field col s12">
-              <input id="description" type="text" class="validate" required>
-              <label for="description">Description</label>
-            </div>
-          </div>
-          <div class="">
-            <div class="input-field col s12">
-              <input id="range" type="number" class="validate"  min="0" step="100" required>
-              <label for="range">Range</label>
+              <input id="board_query" type="text" class="validate" required>
+              <label for="board_query">Query</label>
             </div>
           </div>
           <br>
@@ -103,46 +100,37 @@
           </center>
         </div>
       </form>
-      <button class="btn waves-effect waves-light teal modal-action modal-close" type="submit" name="action" onclick="addTasks()">Submit</button>
+      <button class="btn waves-effect waves-light teal modal-action modal-close" type="submit" name="action" onclick="addDashboard()">Submit</button>
+    </div>
+  </div>
+  <div id = "modal5" class = "modal">
+    <div class="card">
+      <div class="card-content">
+        <h4 style = "text-align:center"><span id ="NameDetail"></span></h4>
+      </div>
+      <div class="card-tabs" id = "modal5">
+        <ul class="tabs tabs-fixed-width">
+          <li class="tab"><a class="active" href="#test5">Description</a></li>
+          <li class="tab"><a href="#test6">Queries</a></li>
+          <li class="tab"><a href="#test7">No of Queries</a></li>
+        </ul>
+      </div>
+      <div class="card-content grey lighten-4">
+        <div id="test5"><span id ="Description"></span></div>
+        <div id="test6"><span id ="Queries"></span></div>
+        <div id="test7"><span id ="queries_count"></span> metres</div>
+      </div>
     </div>
   </div>
 
 
 
-  <div id="modal2" class="modal">
-    <div class="modal-content">
-      <form class="col s12">
-        <div class="form-container">
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="f_name" type="text" required>
-              <label for="text">Name</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="email_login" type="email" class="validate" required>
-              <label for="email_login">Email</label>
-            </div>
-          </div>
-          <br>
-          <center>
-
-            <br>
-          </center>
-        </div>
-      </form>
-        <button class="btn waves-effect waves-light teal modal-action modal-close" id="Btn" name="action" >Submit</button>
-    </div>
-  </div>
 
 
   <div id="modal3" class="modal" >
     <div class="modal-content">
       <h4>Welcome</h4>
-      <p>  <span id="userName"></span> welcome to the app.
-
-
+      <p>  <span id="userName"></span> welcome to the Periscope.
       </p>
     </div>
     <div class="modal-footer">
@@ -153,56 +141,31 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s6">
-      
+          <h5 class="white-text"></h5>
+         
         </div>
         <div class="push-l3 col l6 s6">
-          <h5 class="white-text">Know Us</h5>
+          <h5 class="white-text">When in Doubt Code it Out</h5>
           <ul>
-            <li><a class="white-text" target="_blank" href="https://github.com/Unsorted-array">Ritesh Ranjan</a></li>
+            <li><a class="white-text" target="_blank" href="https://github.com/Unsorted-array">UnsortedArray</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-       <a class="white-text text-lighten-3" href="mainPage.html#navCol">SpotMate</a>
+       <a class="white-text text-lighten-3" href="mainPage.html#navCol">PeriScope</a>
       </div>
     </div>
   </footer>
 
-  <div id = "modal5" class = "modal">
-    <div class="card">
-      <div class="card-content">
-        <h4 style = "text-align:center"><span id ="NameDetail"></span></h4>
-      </div>
-      <div class="card-tabs" id = "modal5">
-        <ul class="tabs tabs-fixed-width">
-          <li class="tab"><a class="active" href="#test5">Description</a></li>
-          <li class="tab"><a href="#test6">Task Location</a></li>
-          <li class="tab"><a href="#test7">Range</a></li>
-        </ul>
-      </div>
-      <div class="card-content grey lighten-4">
-        <div id="test5"><span id ="DescriptionDetail"></span></div>
-        <div id="test6"><span id ="LocationDetail"></span></div>
-        <div id="test7"><span id ="RangeDetail"></span> metres</div>
-      </div>
-    </div>
-  </div>
   <!--  Scripts-->
 
-    
-
-    <!-- Compiled and minified JavaScript -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-            
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
     <script type="text/javascript" src="js/firebaseInit.js"></script>
-    
-    <script src="js/modal.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/init_s.js"></script>
     <script src="js/mainPage.js"></script>
-      
     </body>
 </html>
