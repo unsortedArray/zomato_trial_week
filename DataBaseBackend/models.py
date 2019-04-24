@@ -1,0 +1,74 @@
+import config as config
+import datetime
+from flask import request
+from flask_api import FlaskAPI
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, UniqueConstraint, create_engine, Date, Time, TIMESTAMP
+from sqlalchemy import Integer, ForeignKey, String, TypeDecorator, Unicode, event
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.sqlite import BLOB
+from werkzeug.security import generate_password_hash, check_password_hash
+# from flask_login import UserMixin
+from enum import Enum
+app = FlaskAPI(__name__)
+
+db = SQLAlchemy(app)
+engine = create_engine(config.sqlite['CREATE_ENGINE_URL'], echo=True)
+DeclarativeBase = declarative_base(engine)
+metadata = DeclarativeBase.metadata
+
+
+class orders(DeclarativeBase):
+    __tablename__ = 'orders'
+    id = Column(String(200), primary_key=True,default= str((datetime.datetime.now())))
+    name = Column(String(200))
+    resName = Column(String(200), ForeignKey('restaurants.name'))
+    ammount = Column(Integer)
+    restaurant = Column(Integer, ForeignKey('restaurants.id'))
+    user = Column(String(200),ForeignKey('user.username'));
+    def __init__(self, name=None,resName =None , ammount=None,restaurant=restaurant,user = user):
+        self.name = name
+        self.ammount = ammount
+        self.resName = resName
+        self.restaurant = restaurant
+        self.user = user
+    def __repr__(self):
+        return self.id
+class restaurants(DeclarativeBase):
+	__tablename__ = 'restaurants'
+	id = Column(Integer,primary_key= True , autoincrement=True)
+
+	name = Column(String(200))
+	cityCode = Column(String(10))
+	cityName = Column(String(40))
+	def __init__(self , name = None ,cityCode = None , cityName = None):
+		self.name = name
+		self.cityName = cityName
+		self.cityCode = cityCode
+	def __repr__(self):
+		return self.id
+
+class user(DeclarativeBase):
+    __tablename__ = 'user'
+    username = Column(String(200), primary_key=True)
+    #pwhash = Column(String(200))
+    # institution = Column(String(200), ForeignKey('institution.id'))
+    def __init__(self, username=None ):
+        # self.institution = institution
+        self.username = username
+    def __repr__(self):
+        return self.username
+        
+    def get_id(self):
+        try:
+            return self.username
+        except AttributeError:
+            raise NotImplementedError('No `id` attribute - override `get_id`')
+class tests(DeclarativeBase):
+	__tablename__ = 'tests'
+	name = Column(String(30), primary_key= True)
+	def __init__(self, name = None):
+		self.name = name
+	def __repr__(self):
+		return self.name
+metadata.create_all()
