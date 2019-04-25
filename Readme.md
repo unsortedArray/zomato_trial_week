@@ -1,3 +1,0 @@
-## ZOMATO TRIAL WEEK
-
-### Periscope
