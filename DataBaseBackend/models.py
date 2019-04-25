@@ -3,7 +3,7 @@ import datetime
 from flask import request
 from flask_api import FlaskAPI
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, UniqueConstraint, create_engine, Date, Time, TIMESTAMP
+from sqlalchemy import Column, UniqueConstraint, create_engine, Date, Time, TIMESTAMP,DateTime
 from sqlalchemy import Integer, ForeignKey, String, TypeDecorator, Unicode, event
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.sqlite import BLOB
@@ -18,20 +18,23 @@ DeclarativeBase = declarative_base(engine)
 metadata = DeclarativeBase.metadata
 
 
-class orders(DeclarativeBase):
-    __tablename__ = 'orders'
-    id = Column(String(200), primary_key=True,default= str((datetime.datetime.now())))
+class order(DeclarativeBase):
+    __tablename__ = 'order'
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(200))
     resName = Column(String(200), ForeignKey('restaurants.name'))
     ammount = Column(Integer)
     restaurant = Column(Integer, ForeignKey('restaurants.id'))
+    city = Column(String, ForeignKey('restaurants.cityName'))
+    order_time = Column(DateTime ,default=datetime.datetime.utcnow)
     user = Column(String(200),ForeignKey('user.username'));
-    def __init__(self, name=None,resName =None , ammount=None,restaurant=restaurant,user = user):
+    def __init__(self, name=None,resName =None , ammount=None,restaurant=restaurant,user = user,city = city):
         self.name = name
         self.ammount = ammount
         self.resName = resName
         self.restaurant = restaurant
         self.user = user
+        self.city = city
     def __repr__(self):
         return self.id
 class restaurants(DeclarativeBase):

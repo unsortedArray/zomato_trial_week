@@ -1,9 +1,8 @@
 
 from flask_api import FlaskAPI
 from flask import request, redirect, flash
-from models import orders
 from connections import DatabaseHandler
-from models import orders
+from models import order
 from models import user
 from models import restaurants
 from models import tests
@@ -11,6 +10,7 @@ import config as config
 from sqlalchemy import text
 import json
 from flask import jsonify
+from dbPopulate import db_load_restaurants
 app = FlaskAPI(__name__)
 session = DatabaseHandler.connect_to_database()
 engine =DatabaseHandler.returnEngine()
@@ -22,16 +22,18 @@ def indexRoute():
 	return("Hello World")
 @app.route('/order',methods=['GET'])
 def get_orders():
-    allorders = session.query(orders).all()
+    allorders = session.query(order).all()
     session.close()
     ordersArray =[];
-    for order in allorders:
+    for thisorder in allorders:
         current_order ={
-         'name': order.name,
-         'restaurant id' : order.restaurant,
-         'ammount':order.ammount,
-         'user' : order.user,
-         'time': order.id
+         'name': thisorder.name,
+         'restaurant id' : thisorder.restaurant,
+         'ammount':thisorder.ammount,
+         'user' : thisorder.user,
+         'resName':thisorder.resName,
+         'time': thisorder.order_time,
+         'cityName':thisorder.city
         }
         ordersArray.append(current_order)
     
@@ -42,7 +44,7 @@ def get_orders():
     }, 200
 @app.route('/order', methods=['POST'])
 def add_order():
-    info = orders(name = request.data['name'], resName = request.data['resName'], ammount =request.data['ammount'], restaurant = request.data['restaurant'],user = request.data['user'])
+    info = order(name = request.data['name'], resName = request.data['resName'], ammount =request.data['ammount'], restaurant = request.data['restaurant'],user = request.data['user'], city = request.data['city'])
     session.add(info)
     try:
         session.commit()
@@ -51,7 +53,9 @@ def add_order():
         flash(config.UNEXPECTED_ERROR)
     finally:
         session.close()
-    return redirect('/order')
+    return {
+        'status': 'success'
+    }
 @app.route('/user/add',methods=['GET','POST'])
 def addUser():
     if request.method == 'POST':
@@ -150,3 +154,4 @@ def test():
     return result
 if __name__ == '__main__':
     run()
+    print(db_load_orders())
