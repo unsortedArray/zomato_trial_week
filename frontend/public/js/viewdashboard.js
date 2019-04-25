@@ -5,54 +5,52 @@ var database = firebase.database()
 var key = ""
 
  $('.tap-target').tapTarget('open');
+ window.addEventListener('load', function() {
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    key = url.searchParams.get('key'); // getting the parameters out of the query 
+    initApp()
+    var sign_out = document.getElementById('out');
+    sign_out.onclick= SignOut ;
 
+});
+// initialisation of the checking the user status
 initApp = function() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
         	var displayName = user.displayName;
             email = user.email;
             email = user.email.substring(0,email.lastIndexOf("@"))
-    		email = email.replace(/[&\/\\#,+()$~%.'":*?<>{}@]/g, '');
+    		    email = email.replace(/[&\/\\#,+()$~%.'":*?<>{}@]/g, '');
             showMessage();
             document.getElementById('zuser').innerHTML = displayName;
             document.getElementById('zuser1').innerHTML = displayName;
             retrive();
              $('.modal').modal();
         }
-      })
- }
-
-window.addEventListener('load', function() {
-	var urlString = window.location.href;
-    var url = new URL(urlString);
-    key = url.searchParams.get('key');
-    
-    initApp()
-    //testDatabaseBackend()
-    var out = document.getElementById('out');
-    out.onclick= SignOut ;
-
-});
-
-function  SignOut() {
-
-    
-    firebase.auth().signOut().then(function() {
-        window.location = 'index.html';
-    }).catch(function(error) {
-        // An error happened.
+        else{
+            window.location='index.html'
+        }
+      },function(error) {
+        // logging the error have other options as well
     });
+ }
+function showMessage(){
+
+    var name=firebase.auth().currentUser.displayName;
+    Materialize.toast('Welcome to DashBoard Editor  '+name+" !", 4000)
+    return;
 }
 function retrive() {
-	
+  
     firebase.database().ref("dashboard/"+email+'/'+key +'/queries' ).once('value', function(snap){
         snap.forEach(yourData);
-        console.log('In retrive function')
+        
         if(snap.val() == null)
         {
-            console.log('Empty database');
+            // do something like logging error or designing the modal
         }
-        else console.log('Not Empty database');
+        
     });
 }
 function yourData(data)
@@ -61,7 +59,6 @@ function yourData(data)
   var task_row = $('#query_list');
   var queries = object;
   var key   = data.key
-  console.log(key)
   count = count+1
   var data = "";
   {
@@ -82,12 +79,16 @@ function yourData(data)
   }
   task_row.append(data)
 }
-function showMessage(){
+function  SignOut() {
 
-    var name=firebase.auth().currentUser.displayName;
-    Materialize.toast('Welcome to DashBoard Editor  '+name+" !", 4000)
-    return;
+    
+    firebase.auth().signOut().then(function() {
+        window.location = 'index.html';
+    }).catch(function(error) {
+        // An error happened.
+    });
 }
+
 function addQuery()
 {
 	var query = document.getElementById('query')
@@ -102,34 +103,22 @@ function addQuery()
 	}
 }
 function insertIntoDB(query){
-	console.log(query.value)
 	var taskObject = {
 		query : query.value
 	}
 	db_ref=database.ref("dashboard/"+email+'/'+key +'/queries/').push().key;
-	console.log(db_ref)
 	 database.ref('dashboard/'+email+'/'+key+'/queries'+"/"+db_ref).set(taskObject).then(function(){
-        console.log('inserted task');
         
         
          Materialize.toast('Task inserted successfully!!', 4000)
     }).catch(function(error){
-        console.log(error);
+        
         Materialize.toast('Task not inserted due to error!!', 4000)
     });
 }
 function printLatestQuery()
 {
-	$
-}
-function EditQuery(value)
-{
-	
-	$('#modal2').modal('open');
-}
-function submitUpdatequery()
-{
-
+	 // something to optimise query
 }
 function DeleteQuery(value)
 {

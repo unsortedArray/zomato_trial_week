@@ -1,22 +1,18 @@
-var path =""
-var key =""
-var graphData =""
-var densityCanvas = document.getElementById("densityChart");
+var graphData ="" // global data for the graph database
+var densityCanvas = document.getElementById("densityChart");  // getting the global canvas on which all the charts will be loaded
 var mylabels = []
 var query = ""
 var mykey =""
 var email = '';
-var count =0;
-var dbref = '';
 var database = firebase.database()
-Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontFamily = "Lato"; // later to be provided by the customisation functions
 Chart.defaults.global.defaultFontSize = 18;
 window.addEventListener('load', function() {
 	var urlString = window.location.href;
 	var url = new URL(urlString);
     
     query =url.searchParams.get('dbref')
-    mykey = url.searchParams.get('key')
+    mykey = url.searchParams.get('key') // retrieving the path and query
     var myquery  = document.getElementById('myquery')
     myquery.innerHTML += query
     QueriesDatabaseBackend(query)
@@ -44,7 +40,12 @@ initApp = function() {
             
              $('.modal').modal();
         }
-      })
+        else{
+            window.location='index.html'
+        }
+      },function(error) {
+         // logging the error can be done via external logging as well
+    })
  }
 
 function  SignOut() {
@@ -75,11 +76,8 @@ function addQuery()
 
 	}
 }
-var mixedChart 
-//var type = ['line','bar']
 function renderChartjs(data,chartOptions)
 {
-	console.log(data['data'])
 	
     mixedChart = new Chart(densityChart, {
     type: 'bar',
@@ -112,7 +110,6 @@ function QueriesDatabaseBackend(query){
 	$.get('http://127.0.0.1:8080/test?query='+query,function(data)
 	{
 		graphData = data
-		console.log(data)
 		getDimmensions(graphData)
 		
 	})
