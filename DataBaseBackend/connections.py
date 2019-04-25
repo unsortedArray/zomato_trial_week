@@ -23,5 +23,8 @@ class DatabaseHandler:
 		return session
 	@staticmethod
 	def  returnEngine():
+		"""
+		connect to the database and return an engine object
+		"""
 		engine = create_engine(config.sqlite['CREATE_ENGINE_URL'], echo=True)
 		return engine

@@ -17,13 +17,11 @@
     	<div class="nav-wrapper container">
       <a id="logo-container" href="mainPage.html#navCol" class="brand-logo white-text">PeriScope</a>
       <ul class="right hide-on-med-and-down">
-        <!-- <li><a class="white-text" href="www.google.com">PROFILE</a></li> -->
         <li><a class="white-text" href='#' id = 'zuser'></a></li>
         <li><a class="white-text" href="mainPage.html#foot">Call ME</a></li>
         <li><a class="white-text" href="#" id="out">LOG OUT</a></li>
       </ul>
       <ul id="nav-mobile" class="side-nav">
-        <!-- <li><a href="#">PROFILE</a></li> -->
         <li><a href='#' id = 'zuser1'></a></li>
         <li><a href="#foot">Call Me</a></li>
         <li><a id ="out1">LOG OUT</a></li>
@@ -31,15 +29,53 @@
       <a  data-activates="nav-mobile" class="button-collapse" style="color:white"><i class="material-icons">menu</i></a>
     	</div>
   </nav>
+
   	<div class="container bordered center">
   		<br>
   		<br>
+  		<div class="row">
+  			<div class="centered col" >
+  				<h4 class="container"><span id="myquery"></span></h3>
+  				<a class="btn-floating red modal-trigger" href="#modal1"><i class="material-icons">edit</i></a>
+  			</div>
+  		</div>
   		<div class="row">
   			
   				<canvas id="densityChart" >FusionCharts XT will load here!</canvas>
   			
   		</div>
   	</div>
+  	<div id="modal1" class="modal">
+    <div class="modal-content">
+      <form class="col s12">
+        <div class="form-container">
+          <h4 class="teal-text center">Query</h4>
+
+          <div class="">
+            <div class="input-field col s12">
+              <input id="updatedQuery" type="text" required="">
+              <label for="updatedQuery">New Query</label>
+            </div>
+          </div>
+          
+          <br>
+          <center>
+
+            <br>
+          </center>
+        </div>
+      </form>
+      <button class="btn waves-effect waves-light teal modal-action modal-close" type="submit" name="action" onclick="UpadteQuery()">Submit</button>
+    </div>
+  </div>
+
+  <footer id="footer" class="page-footer froly">
+    
+      <div id="content-wrap">
+       <a class="white-text text-lighten-3" href="mainPage.html#navCol">PeriScope</a>
+      </div>
+    </div>
+  </footer>
   </body>
 
 

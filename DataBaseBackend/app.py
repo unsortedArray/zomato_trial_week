@@ -1,4 +1,3 @@
-
 from flask_api import FlaskAPI
 from flask import request, redirect, flash
 from connections import DatabaseHandler
@@ -29,7 +28,7 @@ def get_orders():
         current_order ={
          'name': thisorder.name,
          'restaurant id' : thisorder.restaurant,
-         'ammount':thisorder.ammount,
+         'amount':thisorder.amount,
          'user' : thisorder.user,
          'resName':thisorder.resName,
          'time': thisorder.order_time,
@@ -44,7 +43,7 @@ def get_orders():
     }, 200
 @app.route('/order', methods=['POST'])
 def add_order():
-    info = order(name = request.data['name'], resName = request.data['resName'], ammount =request.data['ammount'], restaurant = request.data['restaurant'],user = request.data['user'], city = request.data['city'])
+    info = order(name = request.data['name'], resName = request.data['resName'], amount =request.data['amount'], restaurant = request.data['restaurant'],user = request.data['user'], city = request.data['city'])
     session.add(info)
     try:
         session.commit()
@@ -60,7 +59,6 @@ def add_order():
 def addUser():
     if request.method == 'POST':
 
-        #print(request.data['username'])
         info = user(username= request.data['username'])
         
         session.add(info)
@@ -140,7 +138,6 @@ def test():
     try:
         con =engine.connect()
         rs = con.execute(query)
-        #row = fetchone()
         d,a  = {}, []
         for rowproxy in rs:
             for column,value in rowproxy.items():
@@ -154,4 +151,3 @@ def test():
     return result
 if __name__ == '__main__':
     run()
-    print(db_load_orders())

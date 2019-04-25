@@ -139,6 +139,11 @@ function DeleteQuery(value)
 }
 function ExecuteQuery(value)
 {
-	var x = 'dashboard/'+email+'/'+key+'/queries'+"/"
-	window.location = "viewchart.html?dbref="+x+'?key='+value;
+	var query =""
+	var x = 'dashboard/'+email+'/'+key+'/queries'+"/"+value
+	firebase.database().ref(x).once('value', function(snap){
+        query =snap.val().query 
+        window.location = "viewchart.html?dbref="+query+'&key=' +x;
+    });
+	
 }
